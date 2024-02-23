@@ -1,0 +1,15 @@
+{
+  "name": "web1",
+  "version": "1.0.0",
+  "description": "curso fullcycle 3.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mysql": "^2.18.1"
+  }
+}

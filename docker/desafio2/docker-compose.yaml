@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0 --init-file /data/application/init.sql
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql/init.sql:/data/application/init.sql
+#     - ./mysql:/var/lib/mysql
+    environment:
+     - MYSQL_DATABASE=nodedb
+     - MYSQL_ROOT_PASSWORD=root
+    networks:
+     - node-network
+
+  web1:
+    build:
+      context: ./web1
+      dockerfile: Dockerfile
+    image: alissonsantos/web1:fullcycle
+    container_name: web1
+    restart: on-failure
+    tty: true
+    networks:
+      - node-network
+    ports:
+      - "8081:3000"
+    depends_on:
+     - db
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: alissonsantos/nginx:fullcycle
+    container_name: nginx
+    restart: on-failure
+    tty: true
+    networks:
+      - node-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - web1
+
+networks:
+  node-network:
+    driver: bridge
