@@ -29,6 +29,7 @@ services:
     container_name: web1
     restart: on-failure
     tty: true
+    command: bash -c "npm install && npm start"
     volumes:
      - ./web1:/usr/src/app
     networks:
